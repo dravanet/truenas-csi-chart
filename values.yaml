@@ -1,0 +1,47 @@
+# Default values for truenas-csi.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# truenas-csi controller-configuration
+controller:
+  default:
+    #username: root
+    #password: root
+    apiurl: http://nas.lan/api/v2.0
+    apikey: "1-abcd..."
+
+    configurations:
+      default:
+        # For iscsi volumes, ensure total zvol length is at most 63. Zvol full name
+        # will be zvol/<dataset>/<name>. name is generated, and is 32 characters long.
+        # So, rootdataset name should be no longer than 25 characters.
+        dataset: tank/csi
+        deletePolicy: delete
+
+    iscsi: # Global iscsi configuration
+      # portal address for clients
+      portal: 192.168.0.11:3260
+      # portal id in TrueNAS
+      portalid: 1
+
+    nfs: # Global nfs configuration
+      # server address for clients
+      server: 192.168.0.11
+      allowedhosts: [] # single hosts to grant access for
+      allowednetworks: [192.168.0.0/24] # networks to grant access for
+
+# images configuration
+images:
+  driver:
+    image: ghcr.io/dravanet/truenas-csi
+
+  provisioner:
+    image: k8s.gcr.io/sig-storage/csi-provisioner:v2.2.0
+
+  resizer:
+    image: k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
+
+  node-driver-registrar:
+    image: k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0
+
+podAnnotations: {}

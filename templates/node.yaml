@@ -1,0 +1,95 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "truenas-csi.name" . }}-node
+spec:
+  selector:
+    matchLabels:
+      component: node
+      {{- include "truenas-csi.selectorLabels" . | nindent 6 }}
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 100%
+    type: RollingUpdate
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        component: node
+        {{- include "truenas-csi.selectorLabels" . | nindent 8 }}
+    spec:
+      hostNetwork: true
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.images.driver.image }}
+          env:
+            - name: CSI_NODE_ID
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+          securityContext:
+            privileged: true
+
+          volumeMounts:
+            - name: plugin-dir
+              mountPath: /csi
+            - name: volume-dir
+              mountPath: /var/lib/kubelet
+              mountPropagation: Bidirectional
+            - name: run-lock
+              mountPath: /run/lock
+            - name: etc-iscsi
+              mountPath: /etc/iscsi
+            - name: host-dev
+              mountPath: /dev
+            - name: host-run-udev
+              mountPath: /run/udev
+
+        - name: csi-node-driver-registrar
+          image: {{ (index .Values.images "node-driver-registrar").image }}
+          args:
+            - "--csi-address=/csi/csi.sock"
+            - "--kubelet-registration-path=/var/lib/kubelet/plugins/truenas-csi.dravanet.net/csi.sock"
+            - "--health-port=9809"
+          volumeMounts:
+            - name: plugin-dir
+              mountPath: /csi
+            - name: registration-dir
+              mountPath: /registration
+          ports:
+            - containerPort: 9809
+              name: healthz
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+
+      volumes:
+        - name: registration-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins_registry
+            type: Directory
+        - name: plugin-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins/truenas-csi.dravanet.net
+            type: DirectoryOrCreate
+        - name: volume-dir
+          hostPath:
+            path: /var/lib/kubelet
+        - name: run-lock
+          hostPath:
+            path: /run/lock
+        - name: etc-iscsi
+          hostPath:
+            path: /etc/iscsi
+        - name: host-dev
+          hostPath:
+            path: /dev
+        - name: host-run-udev
+          hostPath:
+            path: /run/udev

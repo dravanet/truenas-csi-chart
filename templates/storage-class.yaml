@@ -1,0 +1,24 @@
+{{ $scPrefix := include "truenas-csi.name" . }}
+{{ $labels := include "truenas-csi.labels" . }}
+
+{{ range $nasName, $nasConfig := .Values.controller }}
+{{ range $nasSubConfigName, $nasSubConfig := index $nasConfig "configurations" }}
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ $scPrefix }}-{{ $nasName }}-{{ $nasSubConfigName }}
+  labels:
+    {{- $labels | nindent 4 }}
+provisioner: truenas-csi.dravanet.net
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
+parameters:
+  # Default filesystem for iscsi shares, ext2/3/4 or xfs
+  #csi.storage.k8s.io/fstype: ext4
+
+  truenas-csi.dravanet.net/nas: {{ $nasName }}
+  truenas-csi.dravanet.net/config: {{ $nasSubConfigName }}
+{{ end }}
+{{ end }}
