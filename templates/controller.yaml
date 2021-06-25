@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "truenas-csi.name" . }}-controller
+  name: {{ include "truenas-csi.fullname" . }}-controller
   labels:
     {{- include "truenas-csi.labels" . | nindent 4 }}
 spec:
@@ -88,4 +88,4 @@ spec:
           emptyDir: {}
         - name: controller-config
           secret:
-            secretName: {{ include "truenas-csi.name" . }}-config
+            secretName: {{ include "truenas-csi.fullname" . }}-config

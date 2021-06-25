@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: {{ include "truenas-csi.name" . }}-node
+  name: {{ include "truenas-csi.fullname" . }}-node
 spec:
   selector:
     matchLabels:

@@ -13,7 +13,7 @@ metadata:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: system:{{ include "truenas-csi.name" . }}-controller
+  name: system:{{ include "truenas-csi.fullname" . }}-controller
   labels:
     {{- include "truenas-csi.labels" . | nindent 4 }}
 rules:
@@ -59,12 +59,12 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ include "truenas-csi.name" . }}
+  name: {{ include "truenas-csi.fullname" . }}
   labels:
     {{- include "truenas-csi.labels" . | nindent 4 }}
 roleRef:
   kind: ClusterRole
-  name: system:{{ include "truenas-csi.name" . }}-controller
+  name: system:{{ include "truenas-csi.fullname" . }}-controller
   apiGroup: rbac.authorization.k8s.io
 subjects:
   - kind: ServiceAccount

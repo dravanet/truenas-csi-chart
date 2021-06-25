@@ -1,4 +1,4 @@
-{{ $scPrefix := include "truenas-csi.name" . }}
+{{ $scPrefix := include "truenas-csi.fullname" . }}
 {{ $labels := include "truenas-csi.labels" . }}
 
 {{ range $nasName, $nasConfig := .Values.controller }}
