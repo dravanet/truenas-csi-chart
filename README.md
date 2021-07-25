@@ -8,7 +8,8 @@ On nodes, where volumes will be mounted, nfs and iscsi support should be present
 
 ## Quickstart
 
-For a quick deployment, set up controller section in [values.yml](values.yml), filling in values:
+For a quick deployment, copy [local.yaml.sample](local.yaml.sample) to `local.yaml`, edit parameters in controller section:
+
 - `default.apiurl`, `default.apikey` for api access
 - `default.configurations.default.dataset`
 - `default.iscsi.portal`, `default.iscsi.portalid` for iscsi based volumes (RWO)
@@ -18,5 +19,5 @@ Then install to a dedicated namespace:
 
 ```shell
 $ kubectl create ns truenas-csi
-$ helm install truenas-csi --namespace=truenas-csi .
+$ helm install truenas-csi --namespace=truenas-csi -f local.yaml .
 ```
