@@ -36,7 +36,7 @@ images:
     image: ghcr.io/dravanet/truenas-csi
 
   provisioner:
-    image: k8s.gcr.io/sig-storage/csi-provisioner:v2.2.0
+    image: k8s.gcr.io/sig-storage/csi-provisioner:v2.2.2
 
   attacher:
     image: k8s.gcr.io/sig-storage/csi-attacher:v3.2.1
