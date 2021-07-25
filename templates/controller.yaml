@@ -61,6 +61,28 @@ spec:
             timeoutSeconds: 10
             periodSeconds: 20
 
+        - name: csi-attacher
+          image: {{ .Values.images.attacher.image }}
+          args:
+            - "--csi-address=/csi/csi.sock"
+            - "--leader-election"
+            - "--http-endpoint=:8082"
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+          ports:
+            - containerPort: 8082
+              name: http-endpoint
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /healthz/leader-election
+              port: http-endpoint
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+            periodSeconds: 20
+
         - name: csi-resizer
           image: {{ .Values.images.resizer.image }}
           args:

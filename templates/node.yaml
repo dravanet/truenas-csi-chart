@@ -69,6 +69,8 @@ spec:
               path: /healthz
               port: healthz
 
+      priorityClassName: system-node-critical
+
       volumes:
         - name: registration-dir
           hostPath:

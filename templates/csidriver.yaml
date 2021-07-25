@@ -1,9 +1,0 @@
----
-apiVersion: storage.k8s.io/v1
-kind: CSIDriver
-metadata:
-  name: truenas-csi.dravanet.net
-  labels:
-    {{- include "truenas-csi.labels" . | nindent 4 }}
-spec:
-  attachRequired: false
