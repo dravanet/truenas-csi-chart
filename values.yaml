@@ -1,6 +1,9 @@
 # These are defaults for truenas-csi.
 # For customization, place/override variables in local.yaml
 
+# default fstype for volumes, ext2/3/4, or xfs
+fstype: ext4
+
 # images configuration
 images:
   driver:

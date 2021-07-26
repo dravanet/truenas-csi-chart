@@ -42,7 +42,7 @@ spec:
           image: {{ .Values.images.provisioner.image }}
           args:
             - "--csi-address=/csi/csi.sock"
-            - "--default-fstype=ext4"
+            - "--default-fstype={{ .Values.fstype }}"
             - "--leader-election"
             - "--http-endpoint=:8080"
             - "--worker-threads=2"
