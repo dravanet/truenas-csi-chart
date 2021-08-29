@@ -42,14 +42,11 @@ spec:
             - name: volume-dir
               mountPath: /var/lib/kubelet
               mountPropagation: Bidirectional
-            - name: run-lock
-              mountPath: /run/lock
-            - name: etc-iscsi
-              mountPath: /etc/iscsi
+            - name: host-root
+              mountPath: /host
+              mountPropagation: Bidirectional
             - name: host-dev
               mountPath: /dev
-            - name: host-run-udev
-              mountPath: /run/udev
 
         - name: csi-node-driver-registrar
           image: {{ (index .Values.images "node-driver-registrar").image }}
@@ -84,15 +81,9 @@ spec:
         - name: volume-dir
           hostPath:
             path: /var/lib/kubelet
-        - name: run-lock
+        - name: host-root
           hostPath:
-            path: /run/lock
-        - name: etc-iscsi
-          hostPath:
-            path: /etc/iscsi
+            path: /
         - name: host-dev
           hostPath:
             path: /dev
-        - name: host-run-udev
-          hostPath:
-            path: /run/udev
