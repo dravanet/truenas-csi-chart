@@ -16,7 +16,7 @@ images:
     image: k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
 
   resizer:
-    image: k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
+    image: k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
 
   node-driver-registrar:
     image: k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0
