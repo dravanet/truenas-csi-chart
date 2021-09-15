@@ -45,7 +45,8 @@ spec:
             - "--default-fstype={{ .Values.fstype }}"
             - "--leader-election"
             - "--http-endpoint=:8080"
-            - "--worker-threads=2"
+            - "--worker-threads={{ .Values.images.provisioner.workers }}"
+            - "--timeout={{ .Values.images.provisioner.timeout }}"
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
@@ -90,6 +91,8 @@ spec:
             - "--csi-address=/csi/csi.sock"
             - "--leader-election"
             - "--http-endpoint=:8081"
+            - "--workers={{ .Values.images.resizer.workers }}"
+            - "--timeout={{ .Values.images.resizer.timeout }}"
           imagePullPolicy: "IfNotPresent"
           volumeMounts:
             - name: socket-dir
