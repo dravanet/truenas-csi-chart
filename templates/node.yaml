@@ -69,11 +69,17 @@ spec:
 
       priorityClassName: system-node-critical
 
+      {{- with index .Values.images "node-driver-registrar" }}
+      {{- with .tolerations }}
       tolerations:
-        - key: CriticalAddonsOnly
-          operator: Exists
-        - effect: NoSchedule
-          operator: Exists
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
 
       volumes:
         - name: registration-dir

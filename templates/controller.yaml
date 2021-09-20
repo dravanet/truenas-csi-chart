@@ -110,6 +110,18 @@ spec:
             timeoutSeconds: 10
             periodSeconds: 20
 
+      {{- with index .Values.images "provisioner" }}
+      {{- with .tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
+
       volumes:
         - name: socket-dir
           emptyDir: {}

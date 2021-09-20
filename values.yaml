@@ -4,7 +4,7 @@
 # default fstype for volumes, ext2/3/4, or xfs
 fstype: ext4
 
-# images configuration
+# images/components configuration
 images:
   driver:
     image: ghcr.io/dravanet/truenas-csi:0.2.3
@@ -13,6 +13,9 @@ images:
     image: k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
     workers: 1
     timeout: 1m
+    # These provide parameters for controller deployment/pod
+    nodeSelector: {}
+    tolerations: []
 
   attacher:
     image: k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
@@ -24,5 +27,12 @@ images:
 
   node-driver-registrar:
     image: k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.3.0
+    # These provide parameters for node daemonset/pods
+    nodeSelector: {}
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoSchedule
+        operator: Exists
 
 podAnnotations: {}
