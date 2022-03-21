@@ -88,11 +88,11 @@ spec:
         - name: csi-resizer
           image: {{ .Values.images.resizer.image }}
           args:
-            - "--csi-address=/csi/csi.sock"
-            - "--leader-election"
-            - "--http-endpoint=:8081"
-            - "--workers={{ .Values.images.resizer.workers }}"
-            - "--timeout={{ .Values.images.resizer.timeout }}"
+            - "-csi-address=/csi/csi.sock"
+            - "-leader-election"
+            - "-http-endpoint=:8081"
+            - "-workers={{ .Values.images.resizer.workers }}"
+            - "-timeout={{ .Values.images.resizer.timeout }}"
           imagePullPolicy: "IfNotPresent"
           volumeMounts:
             - name: socket-dir
