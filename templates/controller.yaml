@@ -66,9 +66,9 @@ spec:
         - name: csi-attacher
           image: {{ .Values.images.attacher.image }}
           args:
-            - "--csi-address=/csi/csi.sock"
-            - "--leader-election"
-            - "--http-endpoint=:8082"
+            - "-csi-address=/csi/csi.sock"
+            - "-leader-election"
+            - "-http-endpoint=:8082"
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
