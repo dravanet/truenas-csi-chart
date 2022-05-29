@@ -97,7 +97,6 @@ spec:
             - "-workers={{ .Values.images.resizer.workers }}"
             - "-timeout={{ .Values.images.resizer.timeout }}"
           {{- include "container.resources" .Values.images.resizer }}
-          imagePullPolicy: "IfNotPresent"
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
