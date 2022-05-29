@@ -29,6 +29,7 @@ spec:
           env:
             - name: "CONTROLLER_CONFIG"
               value: /config/controller.yml
+          {{- include "container.resources" .Values.images.driver }}
           securityContext:
             runAsNonRoot: true
             runAsUser: 21609
@@ -47,6 +48,7 @@ spec:
             - "--http-endpoint=:8080"
             - "--worker-threads={{ .Values.images.provisioner.workers }}"
             - "--timeout={{ .Values.images.provisioner.timeout }}"
+          {{- include "container.resources" .Values.images.provisioner }}
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
@@ -69,6 +71,7 @@ spec:
             - "-csi-address=/csi/csi.sock"
             - "-leader-election"
             - "-http-endpoint=:8082"
+          {{- include "container.resources" .Values.images.attacher }}
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
@@ -93,6 +96,7 @@ spec:
             - "-http-endpoint=:8081"
             - "-workers={{ .Values.images.resizer.workers }}"
             - "-timeout={{ .Values.images.resizer.timeout }}"
+          {{- include "container.resources" .Values.images.resizer }}
           imagePullPolicy: "IfNotPresent"
           volumeMounts:
             - name: socket-dir

@@ -9,6 +9,11 @@ images:
   driver:
     image: ghcr.io/dravanet/truenas-csi:0.4.0
 
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+
   provisioner:
     image: k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
     workers: 1
@@ -17,13 +22,28 @@ images:
     nodeSelector: {}
     tolerations: []
 
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+
   attacher:
     image: k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
 
   resizer:
     image: k8s.gcr.io/sig-storage/csi-resizer:v1.4.0
     workers: 1
     timeout: 1m
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
 
   node-driver-registrar:
     image: k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.5.0
@@ -34,5 +54,10 @@ images:
         operator: Exists
       - effect: NoSchedule
         operator: Exists
+
+    resources:
+      requests:
+        cpu: 5m
+        memory: 16Mi
 
 podAnnotations: {}

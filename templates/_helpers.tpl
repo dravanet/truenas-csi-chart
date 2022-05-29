@@ -54,3 +54,13 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 ServiceAccount
 */}}
 {{- define "truenas-csi.serviceAccountName" -}}{{ include "truenas-csi.name" . }}-controller{{ end }}
+
+{{/*
+Resources
+*/}}
+{{- define "container.resources" -}}
+{{- with .resources }}
+          resources:
+          {{- toYaml . | nindent 12 }}
+{{- end }}
+{{- end -}}
