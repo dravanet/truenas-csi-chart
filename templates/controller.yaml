@@ -125,6 +125,8 @@ spec:
       {{- end }}
       {{- end }}
 
+      priorityClassName: system-cluster-critical
+
       volumes:
         - name: socket-dir
           emptyDir: {}

@@ -75,6 +75,8 @@ spec:
       {{- end }}
       {{- end }}
 
+      priorityClassName: system-node-critical
+
       volumes:
         - name: registration-dir
           hostPath:
