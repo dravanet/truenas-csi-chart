@@ -7,7 +7,7 @@ fstype: ext4
 # images/components configuration
 images:
   driver:
-    image: ghcr.io/dravanet/truenas-csi:0.4.0
+    image: ghcr.io/dravanet/truenas-csi:0.4.1
 
     resources:
       requests:
