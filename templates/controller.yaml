@@ -54,13 +54,12 @@ spec:
               mountPath: /csi
           ports:
             - containerPort: 8080
-              name: http-endpoint
               protocol: TCP
           livenessProbe:
             failureThreshold: 1
             httpGet:
               path: /healthz/leader-election
-              port: http-endpoint
+              port: 8080
             initialDelaySeconds: 10
             timeoutSeconds: 10
             periodSeconds: 20
@@ -77,13 +76,12 @@ spec:
               mountPath: /csi
           ports:
             - containerPort: 8082
-              name: http-endpoint
               protocol: TCP
           livenessProbe:
             failureThreshold: 1
             httpGet:
               path: /healthz/leader-election
-              port: http-endpoint
+              port: 8082
             initialDelaySeconds: 10
             timeoutSeconds: 10
             periodSeconds: 20
@@ -102,13 +100,12 @@ spec:
               mountPath: /csi
           ports:
             - containerPort: 8081
-              name: http-endpoint
               protocol: TCP
           livenessProbe:
             failureThreshold: 1
             httpGet:
               path: /healthz/leader-election
-              port: http-endpoint
+              port: 8081
             initialDelaySeconds: 10
             timeoutSeconds: 10
             periodSeconds: 20
