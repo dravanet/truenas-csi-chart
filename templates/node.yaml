@@ -61,8 +61,6 @@ spec:
             - name: registration-dir
               mountPath: /registration
 
-      priorityClassName: system-node-critical
-
       {{- with index .Values.images "node-driver-registrar" }}
       {{- with .tolerations }}
       tolerations:
