@@ -29,6 +29,10 @@ spec:
           env:
             - name: "CONTROLLER_CONFIG"
               value: /config/controller.yml
+            {{- if .Values.gogc }}
+            - name: "GOGC"
+              value: {{ quote .Values.gogc }}
+            {{- end }}
           {{- include "container.resources" .Values.images.driver }}
           securityContext:
             runAsNonRoot: true
@@ -49,6 +53,11 @@ spec:
             - "--worker-threads={{ .Values.images.provisioner.workers }}"
             - "--timeout={{ .Values.images.provisioner.timeout }}"
           {{- include "container.resources" .Values.images.provisioner }}
+          {{- if .Values.gogc }}
+          env:
+          - name: "GOGC"
+            value: {{ quote .Values.gogc }}
+          {{- end }}
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
@@ -71,6 +80,11 @@ spec:
             - "-leader-election"
             - "-http-endpoint=:8082"
           {{- include "container.resources" .Values.images.attacher }}
+          {{- if .Values.gogc }}
+          env:
+          - name: "GOGC"
+            value: {{ quote .Values.gogc }}
+          {{- end }}
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
@@ -95,6 +109,11 @@ spec:
             - "-workers={{ .Values.images.resizer.workers }}"
             - "-timeout={{ .Values.images.resizer.timeout }}"
           {{- include "container.resources" .Values.images.resizer }}
+          {{- if .Values.gogc }}
+          env:
+          - name: "GOGC"
+            value: {{ quote .Values.gogc }}
+          {{- end }}
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
